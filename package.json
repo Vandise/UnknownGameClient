@@ -1,0 +1,44 @@
+{
+  "name": "GameClient",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babel": "^5.2.15",
+    "babel-core": "^5.2.15",
+    "babel-loader": "^5.0.0",
+    "coffee-loader": "^0.7.2",
+    "coffee-react-transform": "^3.1.0",
+    "coffee-script": "^1.9.2",
+    "css-loader": "^0.11.0",
+    "express": "^4.13.1",
+    "gulp": "^3.8.11",
+    "gulp-shell": "^0.4.1",
+    "gulp-util": "^3.0.4",
+    "phaser": "^2.4.1",
+    "react": "^0.13.2",
+    "react-hot-loader": "^1.2.5",
+    "react-router": "^0.13.2",
+    "redis": "^2.1.0",
+    "sass-loader": "^3.1.1",
+    "socketio": "^1.0.0",
+    "style-loader": "^0.11.0",
+    "webpack": "^1.8.9",
+    "webpack-dev-server": "^1.8.2"
+  },
+  "devDependencies": {
+    "coffee-react": "^3.1.0",
+    "core-js": "^1.1.1",
+    "gulp-sass": "^2.3.1",
+    "html-webpack-plugin": "^1.6.1",
+    "node-sass": "^3.2.0"
+  },
+  "scripts": {
+    "test:watch": "WATCH=true node ./node_modules/.bin/karma start",
+    "test": "node ./node_modules/.bin/karma start",
+    "start": "./node_modules/.bin/gulp watch",
+    "build": "./node_modules/.bin/gulp build"
+  },
+  "author": "",
+  "license": "ISC"
+}
