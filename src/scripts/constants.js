@@ -13,6 +13,8 @@ export default {
       'CONNECT_FAILED',
       'GET_ACTIVE_SERVERS',
       'SET_ACTIVE_SERVERS',
+      'VALIDATE_CLIENT_ATTEMPT',
+      'CLIENT_SERVER_MISMATCH'
     ]),
 
   },

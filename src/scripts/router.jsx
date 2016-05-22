@@ -14,9 +14,16 @@ let routes = (
       path='/'
     />
 
+    <Route
+      name='login'
+      handler={Pages.LoginPage}
+      path='/login'
+    />
+
   </Route>  
 )
 
 export default Router.run(routes, function(Handler, state) {
+  console.log(state);
   React.render(<Handler {...state} />, document.body);
 });

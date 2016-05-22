@@ -5,6 +5,7 @@ export default class MessageModal extends React.Component {
 
   render() {
     let error = this.props.error;
+
     if (error !== null && error !== undefined) {
       return(
         <div className='message-modal'>

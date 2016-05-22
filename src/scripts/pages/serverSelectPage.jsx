@@ -3,7 +3,8 @@ import { Link }     from 'react-router';
 import Dispatcher   from '../framework/default';
 import { ACTIONS }  from '../constants';
 import MessageModal from '../components/shared/messageModal';
-import ServerStore  from '../stores/serverStore';
+import CsStore  from '../stores/csStore';
+import ServerList   from '../components/serverSelect/serverList';
 
 import Styles       from '../../styles/pages/serverSelectPage.sass';
 
@@ -11,8 +12,8 @@ export default class ServerSelectPage extends React.Component {
 
   constructor() {
     super();
-    ServerStore.reset();
-    this.cid = ServerStore.register(this);
+    CsStore.reset();
+    this.cid = CsStore.register(this);
   }
 
   componentWillMount() {
@@ -20,18 +21,18 @@ export default class ServerSelectPage extends React.Component {
   }
 
   componentWillUnmount() {
-    ServerStore.unregister(this.cid);
+    CsStore.unregister(this.cid);
   }
 
   render() {
-    let servers = ServerStore.getActiveServers();
-    let error   = ServerStore.getConnectError();
+    let servers = CsStore.getActiveServers();
+    let error   = CsStore.getConnectError();
 
     if (Object.keys(servers).length > 0) {
       return (
         <div>
-          <h2>This is the server select page with servers</h2>
-          <MessageModal message={error} />
+          <ServerList servers={servers} />
+          <MessageModal error={error} />
         </div>
       );
     } else {
