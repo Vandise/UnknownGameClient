@@ -17,13 +17,14 @@ let routes = (
     <Route
       name='login'
       handler={Pages.LoginPage}
-      path='/login'
+      path='/login/:id'
     />
 
   </Route>  
 )
 
 export default Router.run(routes, function(Handler, state) {
+  console.log('Router State: ');
   console.log(state);
   React.render(<Handler {...state} />, document.body);
 });

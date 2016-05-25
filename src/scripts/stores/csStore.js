@@ -7,6 +7,7 @@ let connectError   = null;
 let connectTimer   = null;
 let connectAttempt = 0;
 
+let serverId      = null;
 let serverHost    = null;
 let serverPort    = null;
 let activeServers = [];
@@ -21,9 +22,12 @@ socket.on('get_active_servers', (serverList) => {
   Dispatcher.dispatch(ACTIONS.CS.SET_ACTIVE_SERVERS, serverList);
 });
 
-socket.on('authenticate_client', (status) => {
+socket.on('authenticate_client', (response) => {
   console.log('Authenticate client status: ');
-  console.log(status);
+  console.log(response.status);
+  if (response.status === 1) {
+    Dispatcher.dispatch(ACTIONS.CS.VALIDATE_CLIENT_SUCCESS, {id: serverId});
+  }
 });
 
 socket.on('server_error', (error) => {
@@ -75,25 +79,17 @@ let events = {
   },
 
   [ACTIONS.CS.VALIDATE_CLIENT_ATTEMPT]: (data) => {
-    console.log(data);
-
-    //
-    //  TODO:
-    //    Finish implementation of authenticate_client on CS/ClientAuth
-    //      - GS needs authenticate_client_version
-    //      - change setTimeout to setInterval
-    //
-
     let gsData = {
       host: data.ip,
       port: data.port,
       version: CLIENT_VERSION
     };
+    serverId = data.id;
     socket.emit('authenticate_client', gsData);
+  },
 
-
-
-    //Router.transitionTo('login', data);
+  [ACTIONS.CS.VALIDATE_CLIENT_SUCCESS]: (server) => {
+    Router.transitionTo('login', server);
   },
 
 };

@@ -14,6 +14,7 @@ export default {
       'GET_ACTIVE_SERVERS',
       'SET_ACTIVE_SERVERS',
       'VALIDATE_CLIENT_ATTEMPT',
+      'VALIDATE_CLIENT_SUCCESS',
       'CLIENT_SERVER_MISMATCH'
     ]),
 
