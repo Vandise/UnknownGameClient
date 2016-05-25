@@ -37,12 +37,14 @@ socket.on('server_error', (error) => {
 let events = {
 
   [ACTIONS.CS.CONNECT]: (e) => {
+    socket.connect();
     connectTimer = setInterval(() => {
       if (socket.connected) {
         clearInterval(connectTimer);
         return;
       }
       if (!socket.connected) {
+        console.log('Reconnecting');
         if (connectAttempt >= 5) {
           Dispatcher.dispatch(ACTIONS.CS.CONNECT_FAILED, ERRORS.CS_OFFLINE);
           clearInterval(connectTimer);
@@ -74,7 +76,6 @@ let events = {
   },
 
   [ACTIONS.CS.SET_ACTIVE_SERVERS]: (servers) => {
-    console.log(servers);
     activeServers = servers;
   },
 
@@ -90,6 +91,7 @@ let events = {
 
   [ACTIONS.CS.VALIDATE_CLIENT_SUCCESS]: (server) => {
     Router.transitionTo('login', server);
+    socket.disconnect();
   },
 
 };

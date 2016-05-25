@@ -40,7 +40,7 @@ export default class LoginPage extends React.Component {
           </div>
           <div className='user-actions'>
             <a className='button red'>Ok</a>
-            <a className='button red'>Cancel</a>
+            <Link to="/" className='button red'>Cancel</Link>
           </div>
         </div>
       </div>
