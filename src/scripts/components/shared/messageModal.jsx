@@ -1,22 +1,52 @@
-import React  from 'react';
-import Styles from '../../../styles/components/shared/modal.sass';
+import React         from 'react';
+import MessageStore  from '../../stores/messageStore';
+import Styles        from '../../../styles/components/shared/modal.sass';
 
 export default class MessageModal extends React.Component {
 
-  render() {
-    let error = this.props.error;
+  constructor() {
+    super()
+    this.cid = MessageStore.register(this);
+  }
 
-    if (error !== null && error !== undefined) {
+  componentWillUnmount() {
+    MessageStore.unregister(this.cid);
+  }
+
+  options() {
+    let options = MessageStore.getOptions();
+    let buttons = [];
+    let i       = 0;
+    for (i = 0; i < options.length; i++) {
+      buttons.push(
+        <a
+          className={`button ${options[i]['color'] || 'red'}`}
+          onClick={options[i]['onclick']}
+        >
+          {options[i]['text']}
+        </a>
+      );
+    }
+    return (
+      <div>
+        {buttons}
+      </div>
+    );
+  }
+
+  render() {
+    let message = MessageStore.getMessage();
+    if (message !== null && message !== undefined) {
       return(
         <div className='message-modal'>
           <div className='modal-header'>
-            Error Code: {error.code}
+            Error Code: {MessageStore.getErrorCode()}
           </div>
           <div className='modal-body'>
-            <p>{error.message}</p>
+            <p>{message}</p>
           </div>
           <div className='modal-footer'>
-            <a className='button red'>{error.buttonText || 'Ok'}</a>
+            {this.options()}
           </div>
         </div>
       );

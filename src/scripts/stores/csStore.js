@@ -23,10 +23,10 @@ socket.on('get_active_servers', (serverList) => {
 });
 
 socket.on('authenticate_client', (response) => {
-  console.log('Authenticate client status: ');
-  console.log(response.status);
   if (response.status === 1) {
     Dispatcher.dispatch(ACTIONS.CS.VALIDATE_CLIENT_SUCCESS, {id: serverId});
+  } else {
+    Dispatcher.dispatch(ACTIONS.CS.CONNECT_FAILED, response);
   }
 });
 
@@ -37,14 +37,13 @@ socket.on('server_error', (error) => {
 let events = {
 
   [ACTIONS.CS.CONNECT]: (e) => {
-    socket.connect();
     connectTimer = setInterval(() => {
       if (socket.connected) {
         clearInterval(connectTimer);
         return;
       }
       if (!socket.connected) {
-        console.log('Reconnecting');
+        socket.connect();
         if (connectAttempt >= 5) {
           Dispatcher.dispatch(ACTIONS.CS.CONNECT_FAILED, ERRORS.CS_OFFLINE);
           clearInterval(connectTimer);
@@ -64,11 +63,20 @@ let events = {
 
   [ACTIONS.CS.CONNECT_FAILED]: (error) => {
     socket.disconnect();
-    connectError = error;
+    Dispatcher.dispatch(ACTIONS.MESSAGE.ADD_MESSAGE, error);
   },
 
   [ACTIONS.CS.CLIENT_SERVER_MISMATCH]: (error) => {
-    connectError = error;
+    let message = error;
+    message.options = [
+      {
+        text: 'Ok', 
+        onclick: () => {
+          Dispatcher.dispatch(ACTIONS.MESSAGE.CLEAR_MESSAGE, {});
+        }
+      }
+    ];
+    Dispatcher.dispatch(ACTIONS.MESSAGE.ADD_MESSAGE, error);
   },
 
   [ACTIONS.CS.GET_ACTIVE_SERVERS]: (options) => {

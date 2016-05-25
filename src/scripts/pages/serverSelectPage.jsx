@@ -32,7 +32,7 @@ export default class ServerSelectPage extends React.Component {
       return (
         <div>
           <ServerList servers={servers} />
-          <MessageModal error={error} />
+          <MessageModal />
         </div>
       );
     } else {
@@ -41,7 +41,7 @@ export default class ServerSelectPage extends React.Component {
           <div className='serverMessage'>
             <p>Retrieving available servers. Please wait.</p>
           </div>
-          <MessageModal error={error} />
+          <MessageModal />
         </div>
       );
     }

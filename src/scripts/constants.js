@@ -18,6 +18,11 @@ export default {
       'CLIENT_SERVER_MISMATCH'
     ]),
 
+    MESSAGE: Dispatcher.Actions([
+      'ADD_MESSAGE',
+      'CLEAR_MESSAGE'
+    ]),
+
   },
 
   ERRORS: {
