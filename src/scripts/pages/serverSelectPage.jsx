@@ -2,7 +2,6 @@ import React        from 'react';
 import { Link }     from 'react-router';
 import Dispatcher   from '../framework/default';
 import { ACTIONS }  from '../constants';
-import MessageModal from '../components/shared/messageModal';
 import CsStore  from '../stores/csStore';
 import ServerList   from '../components/serverSelect/serverList';
 
@@ -32,7 +31,6 @@ export default class ServerSelectPage extends React.Component {
       return (
         <div>
           <ServerList servers={servers} />
-          <MessageModal />
         </div>
       );
     } else {
@@ -41,7 +39,6 @@ export default class ServerSelectPage extends React.Component {
           <div className='serverMessage'>
             <p>Retrieving available servers. Please wait.</p>
           </div>
-          <MessageModal />
         </div>
       );
     }

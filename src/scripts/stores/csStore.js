@@ -1,7 +1,8 @@
 import { ACTIONS, CONNECT_SERVER_HOST, CONNECT_SERVER_PORT, CLIENT_VERSION, ERRORS }  from '../constants';
-import Dispatcher from '../framework/default';
-import io         from 'socket.io-client';
-import Router     from '../router';
+import Dispatcher    from '../framework/default';
+import io            from 'socket.io-client';
+import Router        from '../router';
+import * as Session  from '../util/sessionStorage';
 
 let connectError   = null;
 let connectTimer   = null;
@@ -62,7 +63,7 @@ let events = {
   },
 
   [ACTIONS.CS.CONNECT_FAILED]: (error) => {
-    socket.disconnect();
+    socket.disconnect(true);
     Dispatcher.dispatch(ACTIONS.MESSAGE.ADD_MESSAGE, error);
   },
 
@@ -93,13 +94,20 @@ let events = {
       port: data.port,
       version: CLIENT_VERSION
     };
-    serverId = data.id;
+    serverId   = data.id;
+    serverHost = data.ip;
+    serverPort = data.port;
     socket.emit('authenticate_client', gsData);
   },
 
   [ACTIONS.CS.VALIDATE_CLIENT_SUCCESS]: (server) => {
+    Session.setCurrentServer({
+      id:   serverId,
+      host: serverHost,
+      port: serverPort
+    });
     Router.transitionTo('login', server);
-    socket.disconnect();
+    socket.disconnect(true);
   },
 
 };

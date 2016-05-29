@@ -1,6 +1,8 @@
 import React        from 'react';
 import { Link }     from 'react-router';
 import Dispatcher   from '../framework/default';
+import MessageModal from '../components/shared/messageModal';
+import AuthStore    from '../stores/authStore';
 
 import Styles from '../../styles/pages/login.sass';
 
@@ -8,6 +10,12 @@ export default class LoginPage extends React.Component {
 
   constructor() {
     super();
+    this.cid = AuthStore.register(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.setState({
+      username: '',
+      password: ''
+    });
   }
 
   componentWillMount() {
@@ -16,7 +24,16 @@ export default class LoginPage extends React.Component {
   }
 
   componentWillUnmount() {
+    AuthStore.unregister(this.cid);
+  }
 
+  handleLogin() {
+    let un = this.refs.account.getDOMNode().value;
+    let pw = this.refs.password.getDOMNode().value;
+    Dispatcher.dispatch(ACTIONS.AUTH.LOGIN_ATTEMPT, {
+      username: un,
+      password: pw
+    });
   }
 
   render() {
@@ -29,17 +46,17 @@ export default class LoginPage extends React.Component {
           <div className='input-container'>
             <label for='account'>
               <div className='label-text'>Account</div>
-              <input type='text' name='account' rel='account' />
+              <input type='text' name='account' ref='account' />
             </label>
           </div>
           <div className='input-container'>
             <label for='password'>
               <div className='label-text'>Password</div>
-              <input type='password' name='password' rel='password' />
+              <input type='password' name='password' ref='password' />
             </label>
           </div>
           <div className='user-actions'>
-            <a className='button red'>Ok</a>
+            <a className='button red' onClick={this.handleLogin}>Ok</a>
             <Link to="/" className='button red'>Cancel</Link>
           </div>
         </div>
