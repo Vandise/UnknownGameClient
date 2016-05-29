@@ -1,5 +1,6 @@
 import React        from 'react';
 import { Link }     from 'react-router';
+import { ACTIONS }  from '../constants';
 import Dispatcher   from '../framework/default';
 import MessageModal from '../components/shared/messageModal';
 import AuthStore    from '../stores/authStore';
@@ -11,11 +12,8 @@ export default class LoginPage extends React.Component {
   constructor() {
     super();
     this.cid = AuthStore.register(this);
+    AuthStore.bindGS();
     this.handleLogin = this.handleLogin.bind(this);
-    this.setState({
-      username: '',
-      password: ''
-    });
   }
 
   componentWillMount() {
@@ -25,6 +23,7 @@ export default class LoginPage extends React.Component {
 
   componentWillUnmount() {
     AuthStore.unregister(this.cid);
+    AuthStore.unBindGS();
   }
 
   handleLogin() {

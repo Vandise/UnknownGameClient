@@ -21,5 +21,5 @@ export function setCurrentServer(server) {
 };
 
 export function getCurrentServer() {
-  return JSON.parse(window.sessionStorage.getItem('server'));
+  return JSON.parse(window.sessionStorage.getItem('server')) || {};
 }
