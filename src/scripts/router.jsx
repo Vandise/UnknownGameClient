@@ -20,6 +20,12 @@ let routes = (
       path='/login/:id'
     />
 
+    <Route
+      name='characterSelect'
+      handler={Pages.CharacterSelect}
+      path='/characterSelect/'
+    />
+
   </Route>  
 )
 

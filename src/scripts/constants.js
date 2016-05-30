@@ -5,6 +5,7 @@ export default {
   CLIENT_VERSION: '0.0.1',
   CONNECT_SERVER_HOST: 'localhost',
   CONNECT_SERVER_PORT: 44500,
+  LOGIN_ATTEMPT_MAX: 3,
 
   ACTIONS: {
 
